@@ -11,19 +11,20 @@ def databases():
             return {
                 'default': {
                     'ENGINE': 'django.db.backends.mysql',
-                    'HOST': '/cloudsql/mealsloth-chimera-ap01:mealsloth-chimera-ap01-cloudsqlg1-in02',
-                    'NAME': 'chimera_prod01',
+                    'HOST': '/cloudsql/mealsloth-minotaur-db01:mealsloth-minotaur-in01',
+                    'NAME': 'minotaur_prod01',
                     'USER': 'root',
+                    'PASSWORD': '9XD8XkZ8q3SygQHfDPSVEJf9e5FZrH75gtJYCR9k4wfqp8PQ6EXvDBQrKZanfBVY',
                 }
             }
         elif os.getenv('SETTINGS_MODE') == 'prod' or USE_PROD_DB is True:
             return {
                 'default': {
                     'ENGINE': 'django.db.backends.mysql',
-                    'HOST': '173.194.108.241',
-                    'NAME': 'chimera_prod01',
-                    'USER': 'generic',
-                    'PASSWORD': 'ZtuQGCRWhWpaLtV6e93kD59uWjjC8r',
+                    'HOST': '104.154.147.252',
+                    'NAME': 'minotaur_prod01',
+                    'USER': 'root',
+                    'PASSWORD': '9XD8XkZ8q3SygQHfDPSVEJf9e5FZrH75gtJYCR9k4wfqp8PQ6EXvDBQrKZanfBVY',
                 }
             }
         else:
