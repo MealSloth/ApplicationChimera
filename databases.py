@@ -14,7 +14,7 @@ def databases():
                 'NAME': 'minotaur_prod01',
                 'USER': 'root',
                 'PASSWORD': '9XD8XkZ8q3SygQHfDPSVEJf9e5FZrH75gtJYCR9k4wfqp8PQ6EXvDBQrKZanfBVY',
-            }
+            },
         }
     elif os.getenv('SETTINGS_MODE') == 'prod' or USE_PROD_DB is True:
         return {
@@ -24,7 +24,14 @@ def databases():
                 'NAME': 'minotaur_prod01',
                 'USER': 'root',
                 'PASSWORD': '9XD8XkZ8q3SygQHfDPSVEJf9e5FZrH75gtJYCR9k4wfqp8PQ6EXvDBQrKZanfBVY',
-            }
+                'OPTIONS': {
+                    'ssl': {
+                        'ca': '~/.ssl/mealsloth-minotaur-in01-server-ca.pem',
+                        'cert': '~/.ssl/mealsloth-minotaur-in01-client-cert.pem',
+                        'key': '~/.ssl/mealsloth-minotaur-in01-client-key.pem',
+                    },
+                },
+            },
         }
     else:
         return {
@@ -34,5 +41,5 @@ def databases():
                 'USER': 'root',
                 'HOST': 'localhost',
                 'PORT': '3306',
-            }
+            },
         }

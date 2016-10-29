@@ -44,7 +44,7 @@ def user_create(request, **kwargs):  # /user/create
             current_user.save()
 
         current_user_login = UserLogin(
-            user_id=current_user.id,
+            user=current_user,
             username=current_user.email,
             password=body.get('password'),
         )
@@ -57,7 +57,7 @@ def user_create(request, **kwargs):  # /user/create
             return HttpResponse(response, content_type='application/json')
 
         location = Location(
-            user_id=current_user.id,
+            user=current_user,
         )
 
         location.save()
@@ -69,7 +69,7 @@ def user_create(request, **kwargs):  # /user/create
             return HttpResponse(response, content_type='application/json')
 
         consumer = Consumer(
-            user_id=current_user.id,
+            user=current_user,
             location_id=location.id,
         )
 
@@ -83,7 +83,7 @@ def user_create(request, **kwargs):  # /user/create
             return HttpResponse(response, content_type='application/json')
 
         chef = Chef(
-            user_id=current_user.id,
+            user=current_user,
             location_id=location.id,
         )
 
@@ -98,7 +98,7 @@ def user_create(request, **kwargs):  # /user/create
             return HttpResponse(response, content_type='application/json')
 
         billing = Billing(
-            user_id=current_user.id,
+            user=current_user,
             consumer_id=consumer.id,
             chef_id=chef.id,
             location_id=location.id,
@@ -131,7 +131,7 @@ def user_create(request, **kwargs):  # /user/create
 
         profile_photo = ProfilePhoto(
             album_id=album.id,
-            user_id=current_user.id,
+            user=current_user,
         )
 
         profile_photo.save()

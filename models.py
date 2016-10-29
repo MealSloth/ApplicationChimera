@@ -23,7 +23,7 @@ class UserLogin(Model):
     password = CharField(max_length=255)
     access_level = IntegerField(choices=UserLoginAccessLevel.UserLoginAccessLevel, default=6)
 
-    user_id = ForeignKey(User)
+    user = ForeignKey(User)
 
     class Meta:
         db_table = 'user_logins'
@@ -40,7 +40,7 @@ class Location(Model):
     country = CharField(max_length=255)
     zip = CharField(max_length=30)
 
-    user_id = ForeignKey(User)
+    user = ForeignKey(User)
 
     class Meta:
         db_table = 'locations'
@@ -49,8 +49,8 @@ class Location(Model):
 class Consumer(Model):
     id = CharField(primary_key=True, default=uuid4, max_length=36, unique=True, editable=False)
 
-    user_id = ForeignKey(User)
-    location_id = ForeignKey(Location)
+    user = ForeignKey(User)
+    location = ForeignKey(Location)
 
     class Meta:
         db_table = 'consumers'
@@ -59,8 +59,8 @@ class Consumer(Model):
 class Chef(Model):
     id = CharField(primary_key=True, default=uuid4, max_length=36, unique=True, editable=False)
 
-    user_id = ForeignKey(User)
-    location_id = ForeignKey(Location)
+    user = ForeignKey(User)
+    location = ForeignKey(Location)
 
     class Meta:
         db_table = 'chefs'
@@ -80,7 +80,7 @@ class Blob(Model):
     content_type = CharField(max_length=255, default='text/plain')
     time = CharField(max_length=30, editable=False)
 
-    album_id = ForeignKey(Album)
+    album = ForeignKey(Album)
 
     class Meta:
         db_table = 'blobs'
@@ -89,10 +89,10 @@ class Blob(Model):
 class ProfilePhoto(Model):
     id = CharField(primary_key=True, default=uuid4, max_length=36, unique=True, editable=False)
 
-    album_id = ForeignKey(Album)
-    user_id = ForeignKey(User, null=True, blank=True, default=None)
-    consumer_id = ForeignKey(Consumer, null=True, blank=True, default=None)
-    chef_id = ForeignKey(Chef, null=True, blank=True, default=None)
+    album = ForeignKey(Album)
+    user = ForeignKey(User, null=True, blank=True, default=None)
+    consumer = ForeignKey(Consumer, null=True, blank=True, default=None)
+    chef = ForeignKey(Chef, null=True, blank=True, default=None)
 
     class Meta:
         db_table = 'profile_photos'
@@ -108,9 +108,9 @@ class Post(Model):
     post_time = CharField(max_length=30)
     expire_time = CharField(max_length=30)
 
-    chef_id = ForeignKey(Chef)
-    location_id = ForeignKey(Location)
-    album_id = ForeignKey(Album)
+    chef = ForeignKey(Chef)
+    location = ForeignKey(Location)
+    album = ForeignKey(Album)
 
     class Meta:
         db_table = 'posts'
@@ -119,10 +119,10 @@ class Post(Model):
 class Billing(Model):
     id = CharField(primary_key=True, default=uuid4, max_length=36, unique=True, editable=False)
 
-    user_id = ForeignKey(User, null=True, blank=True, default=None)
-    consumer_id = ForeignKey(Consumer, null=True, blank=True, default=None)
-    chef_id = ForeignKey(Chef, null=True, blank=True, default=None)
-    location_id = ForeignKey(Location)
+    user = ForeignKey(User, null=True, blank=True, default=None)
+    consumer = ForeignKey(Consumer, null=True, blank=True, default=None)
+    chef = ForeignKey(Chef, null=True, blank=True, default=None)
+    location = ForeignKey(Location)
 
     class Meta:
         db_table = 'billings'
@@ -136,11 +136,11 @@ class Order(Model):
     order_time = CharField(max_length=30)
     amount = IntegerField(default=1)
 
-    post_id = ForeignKey(Post)
-    consumer_id = ForeignKey(Consumer, null=True, blank=True, default=None)
-    chef_id = ForeignKey(Chef, null=True, blank=True, default=None)
-    location_id = ForeignKey(Location)
-    billing_id = ForeignKey(Billing)
+    post = ForeignKey(Post)
+    consumer = ForeignKey(Consumer, null=True, blank=True, default=None)
+    chef = ForeignKey(Chef, null=True, blank=True, default=None)
+    location = ForeignKey(Location)
+    billing = ForeignKey(Billing)
 
     class Meta:
         db_table = 'orders'
@@ -151,7 +151,7 @@ class OrderTime(Model):
     order_status = IntegerField(choices=OrderStatus.OrderStatus, default=0)
     time = CharField(editable=False, max_length=30)
 
-    order_id = ForeignKey(Order)
+    order = ForeignKey(Order)
 
     class Meta:
         db_table = 'order_times'
@@ -160,8 +160,8 @@ class OrderTime(Model):
 class FavoritePost(Model):
     id = CharField(primary_key=True, default=uuid4, max_length=36, unique=True, editable=False)
 
-    consumer_id = ForeignKey(Consumer)
-    post_id = ForeignKey(Post)
+    consumer = ForeignKey(Consumer)
+    post = ForeignKey(Post)
 
     class Meta:
         db_table = 'favorite_posts'
@@ -170,8 +170,8 @@ class FavoritePost(Model):
 class FavoriteChef(Model):
     id = CharField(primary_key=True, default=uuid4, max_length=36, unique=True, editable=False)
 
-    consumer_id = ForeignKey(Consumer)
-    chef_id = ForeignKey(Chef)
+    consumer = ForeignKey(Consumer)
+    chef = ForeignKey(Chef)
 
     class Meta:
         db_table = 'favorite_chefs'
@@ -184,8 +184,8 @@ class Review(Model):
     summary = CharField(max_length=1000)
     time = CharField(max_length=30, editable=False)
 
-    post_id = ForeignKey(Post)
-    consumer_id = ForeignKey(Consumer)
+    post = ForeignKey(Post)
+    consumer = ForeignKey(Consumer)
 
     class Meta:
         db_table = 'reviews'
@@ -210,8 +210,8 @@ class BlogPost(Model):
     short_description = CharField(max_length=500, editable=True)
     long_description = CharField(max_length=10000, editable=True)
 
-    author_id = ForeignKey(Author)
-    album_id = ForeignKey(Album)
+    author = ForeignKey(Author)
+    album = ForeignKey(Album)
 
     class Meta:
         db_table = "blog_posts"
@@ -248,7 +248,7 @@ class Interaction(Model):
     message_body = CharField(max_length=5000)
     time = CharField(max_length=30)
 
-    user_id = ForeignKey(User)
+    user = ForeignKey(User)
 
     class Meta:
         db_table = "interactions"
