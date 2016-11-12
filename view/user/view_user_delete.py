@@ -30,38 +30,38 @@ def user_delete(request, **kwargs):
             return HttpResponse(response, content_type='application/json')
 
         try:
-            user_login = UserLogin.objects.get(user_id=user.id)
+            user_login = UserLogin.objects.get(user=user)
         except UserLogin.DoesNotExist:
             user_login = None
 
         try:
-            location = Location.objects.get(user_id=user.id)
+            location = Location.objects.get(user=user)
         except Location.DoesNotExist:
             location = None
 
         try:
-            consumer = Consumer.objects.get(user_id=user.id)
+            consumer = Consumer.objects.get(user=user)
         except Consumer.DoesNotExist:
             consumer = None
 
         try:
-            chef = Chef.objects.get(user_id=user.id)
+            chef = Chef.objects.get(user=user)
         except Chef.DoesNotExist:
             chef = None
 
         try:
-            billing = Billing.objects.get(user_id=user.id)
+            billing = Billing.objects.get(user=user)
         except Billing.DoesNotExist:
             billing = None
 
         try:
-            profile_photo = ProfilePhoto.objects.get(user_id=user.id)
+            profile_photo = ProfilePhoto.objects.get(user=user)
         except ProfilePhoto.DoesNotExist:
             profile_photo = None
 
         if profile_photo:
             try:
-                album = Album.objects.get(user_id=user.id)
+                album = Album.objects.get(user=user)
             except Album.DoesNotExist:
                 album = None
         else:

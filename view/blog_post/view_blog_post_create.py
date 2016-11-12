@@ -38,7 +38,7 @@ def blog_post_create(request, **kwargs):
 
         blog_post = BlogPost(
             album_id=album.id,
-            author_id=author_id,
+            author_id=author_id,  # TODO: Check how to store author better
             title=title,
             short_description=short_description,
             long_description=long_description,

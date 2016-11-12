@@ -32,13 +32,13 @@ def review_create(request, **kwargs):
             return HttpResponse(response, content_type='application/json')
 
         try:
-            Post.objects.get(pk=post_id)
+            post = Post.objects.get(pk=post_id)
         except Post.DoesNotExist, Post.MultipleObjectsReturned:
             response = Result.get_result_dump(Result.INVALID_PARAMETER)
             return HttpResponse(response, content_type='application/json')
 
         try:
-            Consumer.objects.get(pk=consumer_id)
+            consumer = Consumer.objects.get(pk=consumer_id)
         except Consumer.DoesNotExist, Consumer.MultipleObjectsReturned:
             response = Result.get_result_dump(Result.INVALID_PARAMETER)
             return HttpResponse(response, content_type='application/json')
@@ -46,8 +46,8 @@ def review_create(request, **kwargs):
         time = datetime.utcnow().strftime(TIME_FORMAT)
 
         review_create_kwargs = {
-            'post_id': post_id,
-            'consumer_id': consumer_id,
+            'post': post,
+            'consumer': consumer,
             'rating': rating,
             'time': time,
         }

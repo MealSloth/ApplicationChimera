@@ -53,11 +53,9 @@ def order_create(request, **kwargs):  # /order/create
             post.post_status = PostStatus.SATURATED
 
         order_kwargs = {
-            'post_id': post.id,
-            'consumer_id': consumer.id,
-            'chef_id': post.chef_id,
-            'location_id': consumer.location_id,
-            'billing_id': user.billing_id,
+            'post': post,
+            'consumer': consumer,
+            'billing_id': user.billing_id,  # TODO: Use instance of Billing model
             'order_type': body.get('order_type'),
             'order_time': datetime.utcnow().strftime(TIME_FORMAT),
             'amount': body.get('amount'),

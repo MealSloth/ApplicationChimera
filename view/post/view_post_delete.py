@@ -35,7 +35,7 @@ def post_delete(request, **kwargs):
             order_delete_kwargs = {'order_id': order.id}
             order_delete(request=None, **order_delete_kwargs)
 
-        album_id = post.album_id
+        album_id = post.album.id
 
         try:
             post.delete()

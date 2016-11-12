@@ -40,11 +40,10 @@ def post_create(request, **kwargs):
         album = create_album(request=None, **album_create_kwargs)
 
         post = Post(
-            chef_id=chef.id,
-            location_id=chef.location_id,
+            chef=chef,
             name=name,
+            album=album,
             summary=summary,
-            album_id=album.id,
             capacity=capacity,
             post_time=datetime.utcnow().strftime(TIME_FORMAT),
             expire_time=(datetime.utcnow() + timedelta(hours=6)).strftime(TIME_FORMAT),

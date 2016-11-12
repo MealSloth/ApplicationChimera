@@ -109,7 +109,6 @@ class Post(Model):
     expire_time = CharField(max_length=30)
 
     chef = ForeignKey(Chef)
-    location = ForeignKey(Location)
     album = ForeignKey(Album)
 
     class Meta:
@@ -138,8 +137,6 @@ class Order(Model):
 
     post = ForeignKey(Post)
     consumer = ForeignKey(Consumer, null=True, blank=True, default=None)
-    chef = ForeignKey(Chef, null=True, blank=True, default=None)
-    location = ForeignKey(Location)
     billing = ForeignKey(Billing)
 
     class Meta:

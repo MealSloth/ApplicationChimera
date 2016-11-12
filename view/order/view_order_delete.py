@@ -1,7 +1,7 @@
-from Chimera.models import Order, Post
 from Chimera.enums import PostStatus
 from django.http import HttpResponse
 from Chimera.results import Result
+from Chimera.models import Order
 from json import loads
 
 
@@ -27,14 +27,14 @@ def order_delete(request, **kwargs):
             response = Result.get_result_dump(Result.DATABASE_ENTRY_NOT_FOUND)
             return HttpResponse(response, content_type='application/json')
 
-        try:
-            post = Post.objects.get(pk=order.post_id)
-        except Post.DoesNotExist:
-            response = Result.get_result_dump(Result.DATABASE_ENTRY_NOT_FOUND)
-            return HttpResponse(response, content_type='application/json')
-        except Post.MultipleObjectsReturned:
-            response = Result.get_result_dump(Result.DATABASE_MULTIPLE_ENTRIES)
-            return HttpResponse(response, content_type='application/json')
+        # try:
+        #     post = Post.objects.get(pk=order.post_id)
+        # except Post.DoesNotExist:
+        #     response = Result.get_result_dump(Result.DATABASE_ENTRY_NOT_FOUND)
+        #     return HttpResponse(response, content_type='application/json')
+        # except Post.MultipleObjectsReturned:
+        #     response = Result.get_result_dump(Result.DATABASE_MULTIPLE_ENTRIES)
+        #     return HttpResponse(response, content_type='application/json')
 
         order_amount = order.amount
 
@@ -44,18 +44,18 @@ def order_delete(request, **kwargs):
             response = Result.get_result_dump(Result.DATABASE_CANNOT_DELETE_ORDER)
             return HttpResponse(response, content_type='application/json')
 
-        post.order_count -= order_amount
-        if post.post_status == PostStatus.SATURATED:
-            post.post_status = PostStatus.ACTIVE
+        order.post.order_count -= order_amount
+        if order.post.post_status == PostStatus.SATURATED:
+            order.post.post_status = PostStatus.ACTIVE
 
         try:
-            post.save()
+            order.post.save()
         except StandardError:
             response = Result.get_result_dump(Result.DATABASE_CANNOT_SAVE_POST)
             return HttpResponse(response, content_type='application/json')
 
         if kwargs:
-            return post
+            return order.post
 
         response = Result.get_result_dump(Result.SUCCESS)
         return HttpResponse(response, content_type='application/json')

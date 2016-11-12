@@ -1,5 +1,6 @@
 from Chimera.settings import PROTOCOL, GCS_URL
 from django.core.serializers import serialize
+from django.db.models import *
 
 
 def model_to_dict(model):
@@ -8,7 +9,10 @@ def model_to_dict(model):
     if not model_dictionary.get('id'):
         model_dictionary['id'] = str(model.id)
     for key, value in model_dictionary.iteritems():
-        dictionary[key] = value
+        if model_dictionary[key] is Model:
+            dictionary[key] = model_to_dict(model_dictionary[key])
+        else:
+            dictionary[key] = value
     return dictionary
 
 

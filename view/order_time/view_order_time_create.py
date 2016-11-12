@@ -33,7 +33,7 @@ def order_time_create(request, **kwargs):
             return HttpResponse(response, content_type='application/json')
 
         order_time = OrderTime(
-            order_id=order.id,
+            order=order,
             order_status=order.order_status,
             time=datetime.utcnow().strftime(TIME_FORMAT),
         )
