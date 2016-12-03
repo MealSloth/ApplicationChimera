@@ -10,7 +10,7 @@ def databases():
         return {
             'default': {
                 'ENGINE': 'django.db.backends.mysql',
-                'HOST': '/cloudsql/mealsloth-minotaur-db01:mealsloth-minotaur-in01',
+                'HOST': '/cloudsql/mealsloth-minotaur-db01:us-central1:mealsloth-minotaur-in01',
                 'NAME': 'minotaur_prod01',
                 'USER': 'root',
                 'PASSWORD': '9XD8XkZ8q3SygQHfDPSVEJf9e5FZrH75gtJYCR9k4wfqp8PQ6EXvDBQrKZanfBVY',
