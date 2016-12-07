@@ -1,7 +1,7 @@
+from Chimera.models import Order, Chef, Post, Consumer
 from Chimera.utils import model_to_dict
 from django.http import HttpResponse
 from Chimera.results import Result
-from Chimera.models import Order
 from json import dumps, loads
 
 
@@ -38,20 +38,23 @@ def order(request, **kwargs):
                 return HttpResponse(response, content_type='application/json')
         elif post_id:
             try:
-                current_orders = Order.objects.filter(post_id=post_id)
-            except Order.DoesNotExist:
+                post = Post.objects.get(pk=post_id)
+                current_orders = Order.objects.filter(post=post)
+            except (Post.DoesNotExist, Order.DoesNotExist):
                 response = Result.get_result_dump(Result.DATABASE_ENTRY_NOT_FOUND)
                 return HttpResponse(response, content_type='application/json')
         elif consumer_id:
             try:
-                current_orders = Order.objects.filter(consumer_id=consumer_id)
-            except Order.DoesNotExist:
+                consumer = Consumer.objects.get(pk=consumer_id)
+                current_orders = Order.objects.filter(consumer=consumer)
+            except (Consumer.DoesNotExist, Order.DoesNotExist):
                 response = Result.get_result_dump(Result.DATABASE_ENTRY_NOT_FOUND)
                 return HttpResponse(response, content_type='application/json')
         elif chef_id:
             try:
-                current_orders = Order.objects.filter(chef_id=chef_id)
-            except Order.DoesNotExist:
+                chef = Chef.objects.get(pk=chef_id)
+                current_orders = Order.objects.filter(chef=chef)
+            except (Chef.DoesNotExit, Order.DoesNotExist):
                 response = Result.get_result_dump(Result.DATABASE_ENTRY_NOT_FOUND)
                 return HttpResponse(response, content_type='application/json')
         else:

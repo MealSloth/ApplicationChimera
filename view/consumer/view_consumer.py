@@ -1,6 +1,6 @@
+from Chimera.models import Consumer, Post, Chef
 from Chimera.utils import model_to_dict
 from django.http import HttpResponse
-from Chimera.models import Consumer
 from Chimera.results import Result
 from json import dumps, loads
 
@@ -29,9 +29,9 @@ def consumer(request, **kwargs):  # /consumer
             response = Result.get_result_dump(Result.DATABASE_MULTIPLE_ENTRIES)
             return HttpResponse(response, content_type='application/json')
 
-        favorite_posts = []  # TODO: Add favorite posts
+        favorite_posts = Post.objects.all()  # TODO: Add favorite posts
 
-        favorite_chefs = []  # TODO: Add favorite chefs
+        favorite_chefs = []  # Chef.objects.all()  # TODO: Add favorite chefs
 
         favorite_posts_json = []
         favorite_chefs_json = []

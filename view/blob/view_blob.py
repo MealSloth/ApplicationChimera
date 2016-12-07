@@ -1,7 +1,7 @@
+from Chimera.models import Blob, Album
 from Chimera.utils import blob_to_dict
 from django.http import HttpResponse
 from Chimera.results import Result
-from Chimera.models import Blob
 from json import dumps, loads
 
 
@@ -30,8 +30,9 @@ def blob(request):  # /blob/view
             Result.append_result(response, Result.SUCCESS)
         else:
             try:
-                blobs = Blob.objects.filter(album_id=album_id)
-            except Blob.DoesNotExist:
+                album = Album.objects.get(pk=album_id)
+                blobs = Blob.objects.filter(album=album)
+            except (Album.DoesNotExist, Blob.DoesNotExist):
                 response = Result.get_result_dump(Result.DATABASE_ENTRY_NOT_FOUND)
                 return HttpResponse(response, content_type='application/json')
             if blobs.count() < 1:

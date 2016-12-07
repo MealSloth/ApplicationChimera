@@ -30,7 +30,7 @@ def blog_post_delete(request, **kwargs):
             response = Result.get_result_dump(Result.DATABASE_MULTIPLE_ENTRIES)
             return HttpResponse(response, content_type='application/json')
 
-        album_delete_kwargs = {'album_id': blog_post.album_id}
+        album_delete_kwargs = {'album_id': blog_post.album.id}
 
         delete_album(request=None, **album_delete_kwargs)
 

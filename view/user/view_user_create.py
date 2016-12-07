@@ -1,5 +1,5 @@
 from Chimera.models import User, UserLogin, Location, Consumer, Chef, Billing, Album, ProfilePhoto
-from Chimera.utils import format_phone_number
+from Chimera.utils import format_phone_number, model_to_dict
 from Chimera.settings import TIME_FORMAT
 from django.http import HttpResponse
 from Chimera.results import Result
@@ -154,13 +154,13 @@ def user_create(request, **kwargs):  # /user/create
             response = Result.get_result_dump(Result.DATABASE_CANNOT_SAVE)
             return HttpResponse(response, content_type='application/json')
 
-        current_user = User.objects.filter(id=current_user.id).values()[0]
-        current_user_login = UserLogin.objects.filter(id=current_user_login.id).values()[0]
+        current_user_json = model_to_dict(current_user)
+        current_user_login_json = model_to_dict(current_user_login)
 
         if kwargs:
             return current_user
 
-        response = {'user': current_user, 'user_login': current_user_login}
+        response = {'user': current_user_json, 'user_login': current_user_login_json}
         Result.append_result(response, Result.SUCCESS)
         response = dumps(response)
         return HttpResponse(response, content_type='application/json')
