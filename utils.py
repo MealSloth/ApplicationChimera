@@ -9,8 +9,8 @@ def model_to_dict(model):
     if not model_dictionary.get('id'):
         model_dictionary['id'] = str(model.id)
     for key, value in model_dictionary.iteritems():
-        if model_dictionary[key] is Model:
-            dictionary[key] = model_to_dict(model_dictionary[key])
+        if value is Model:
+            dictionary[key + "_id"] = value.id
         else:
             dictionary[key] = value
     return dictionary
