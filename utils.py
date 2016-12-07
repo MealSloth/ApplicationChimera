@@ -11,7 +11,7 @@ def model_to_dict(model):
         model_dictionary['id'] = str(model.id)
     for key, value in model_dictionary.iteritems():
         if value is Model:
-            dictionary[key + "_id"] = value.id
+            dictionary[key] = model_to_dict(value)
         elif match(r'[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}', value, flags=0):
             dictionary[key + "_id"] = value
         else:
