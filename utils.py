@@ -12,8 +12,8 @@ def model_to_dict(model):
     for key, value in model_dictionary.iteritems():
         if value is Model:
             dictionary[key] = model_to_dict(value)
-        elif match(r'[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}', value, flags=0):
-            dictionary[key + "_id"] = value
+        elif match(r'[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}', str(value), flags=0):
+            dictionary['%s_id' % key] = value
         else:
             dictionary[key] = value
     return dictionary
@@ -28,10 +28,10 @@ def blob_to_dict(blob):
 def format_phone_number(country_code, phone_number):
     if country_code is None or country_code <= 0:
         country_code = 1
-    country_code = "+" + str(country_code)
+    country_code = '+' + str(country_code)
     phone_number = str(phone_number)
-    phone_number = phone_number.replace("+", "")
-    phone_number = phone_number.replace("-", "")
-    phone_number = phone_number.replace("_", "")
-    phone_number = phone_number.replace(" ", "")
-    return country_code + "_" + phone_number
+    phone_number = phone_number.replace('+', '')
+    phone_number = phone_number.replace('-', '')
+    phone_number = phone_number.replace('_', '')
+    phone_number = phone_number.replace(' ', '')
+    return country_code + ' ' + phone_number
