@@ -30,15 +30,14 @@ def consumer(request, **kwargs):  # /consumer
             return HttpResponse(response, content_type='application/json')
 
         favorite_posts = Post.objects.all()  # TODO: Add favorite posts
-
         favorite_chefs = []  # Chef.objects.all()  # TODO: Add favorite chefs
 
         favorite_posts_json = []
         favorite_chefs_json = []
         for post in favorite_posts:
-            favorite_posts_json += model_to_dict(post)
+            favorite_posts_json.append(model_to_dict(post))
         for chef in favorite_chefs:
-            favorite_chefs_json += model_to_dict(chef)
+            favorite_chefs_json.append(model_to_dict(chef))
 
         consumer_json = model_to_dict(current_consumer)
         consumer_json['favorite_posts'] = favorite_posts_json
