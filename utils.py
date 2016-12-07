@@ -1,6 +1,7 @@
 from Chimera.settings import PROTOCOL, GCS_URL
 from django.core.serializers import serialize
 from django.db.models import *
+from re import match
 
 
 def model_to_dict(model):
@@ -11,6 +12,8 @@ def model_to_dict(model):
     for key, value in model_dictionary.iteritems():
         if value is Model:
             dictionary[key + "_id"] = value.id
+        elif match(r'[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}', value, flags=0):
+            dictionary[key + "_id"] = value
         else:
             dictionary[key] = value
     return dictionary
