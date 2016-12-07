@@ -7,8 +7,6 @@ from re import match
 def model_to_dict(model):
     dictionary = {}
     model_dictionary = serialize('python', [model, ])[0].get('fields')
-    if not model_dictionary.get('id'):
-        model_dictionary['id'] = str(model.id)
     for key, value in model_dictionary.iteritems():
         if value is Model:
             dictionary[key] = model_to_dict(value)
@@ -16,6 +14,8 @@ def model_to_dict(model):
             dictionary['%s_id' % key] = value
         else:
             dictionary[key] = value
+    if not dictionary.get('id'):
+        dictionary['id'] = str(model.id)
     return dictionary
 
 
