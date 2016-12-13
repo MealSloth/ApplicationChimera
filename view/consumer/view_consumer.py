@@ -29,8 +29,8 @@ def consumer(request, **kwargs):  # /consumer
             response = Result.get_result_dump(Result.DATABASE_MULTIPLE_ENTRIES)
             return HttpResponse(response, content_type='application/json')
 
-        favorite_posts = Post.objects.all()  # TODO: Add favorite posts
-        favorite_chefs = []  # Chef.objects.all()  # TODO: Add favorite chefs
+        favorite_posts = []  # TODO: Add favorite posts
+        favorite_chefs = []  # TODO: Add favorite chefs
 
         favorite_posts_json = []
         favorite_chefs_json = []
