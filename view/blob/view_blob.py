@@ -1,4 +1,4 @@
-from Chimera.models import Blob, Album
+from Chimera.models import Blob, Album, User, ProfilePhoto
 from Chimera.utils import blob_to_dict
 from django.http import HttpResponse
 from Chimera.results import Result
@@ -11,9 +11,10 @@ def blob(request):  # /blob/view
 
         blob_id = body.get('blob_id')
         album_id = body.get('album_id')
+        user_id = body.get('user_id')
         count = body.get('count')
 
-        if not (blob_id or album_id):
+        if not (blob_id or album_id or user_id):
             response = Result.get_result_dump(Result.INVALID_PARAMETER)
             return HttpResponse(response, content_type='application/json')
 
@@ -28,13 +29,29 @@ def blob(request):  # /blob/view
                 return HttpResponse(response, content_type='application/json')
             response = {'blob': blob_to_dict(current_blob)}
             Result.append_result(response, Result.SUCCESS)
-        else:
+        elif user_id:
             try:
-                album = Album.objects.get(pk=album_id)
-                blobs = Blob.objects.filter(album=album)
-            except (Album.DoesNotExist, Blob.DoesNotExist):
+                user = User.objects.get(pk=user_id)
+                profile_photo = ProfilePhoto.objects.get(user=user)
+            except User.DoesNotExist:
                 response = Result.get_result_dump(Result.DATABASE_ENTRY_NOT_FOUND)
                 return HttpResponse(response, content_type='application/json')
+            except ProfilePhoto.DoesNotExist:
+                response = Result.get_result_dump(Result.DATABASE_ENTRY_NOT_FOUND)
+                return HttpResponse(response, content_type='application/json')
+            blobs = Blob.objects.filter(album=profile_photo.album)
+            if blobs.count() < 1:
+                response = Result.get_result_dump(Result.DATABASE_ENTRY_NOT_FOUND)
+                return HttpResponse(response, content_type='application/json')
+            response = {'blob': blob_to_dict(blobs[0])}
+            Result.append_result(response, Result.SUCCESS)
+        elif album_id:
+            try:
+                album = Album.objects.get(pk=album_id)
+            except Album.DoesNotExist:
+                response = Result.get_result_dump(Result.DATABASE_ENTRY_NOT_FOUND)
+                return HttpResponse(response, content_type='application/json')
+            blobs = Blob.objects.filter(album=album)
             if blobs.count() < 1:
                 response = Result.get_result_dump(Result.DATABASE_ENTRY_NOT_FOUND)
                 return HttpResponse(response, content_type='application/json')
