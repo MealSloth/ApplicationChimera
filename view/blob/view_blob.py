@@ -10,8 +10,8 @@ def blob(request):  # /blob/view
         body = loads(request.body)
 
         blob_id = body.get('blob_id')
-        album_id = body.get('album_id')
         user_id = body.get('user_id')
+        album_id = body.get('album_id')
         count = body.get('count')
 
         if not (blob_id or album_id or user_id):
@@ -84,6 +84,9 @@ def blob(request):  # /blob/view
                 Result.append_result(response, Result.SUCCESS)
 
             response['blobs'] = blob_list
+        else:
+            response = Result.get_result_dump(Result.INVALID_PARAMETER)
+            return HttpResponse(response, content_type='application/json')
 
         response = dumps(response)
         return HttpResponse(response, content_type='application/json')
