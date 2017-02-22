@@ -9,6 +9,7 @@ def user_login(request):  # /user-login
         body = loads(request.body)
         user_login_id = body.get('user_login_id')
         user_id = body.get('user_id')
+        username = body.get('username')
         if user_login_id:
             if UserLogin.objects.filter(id=user_login_id).values().count() > 0:
                 current_user_login = UserLogin.objects.filter(id=user_login_id).values()[0]
@@ -19,6 +20,13 @@ def user_login(request):  # /user-login
         elif user_id:
             if UserLogin.objects.filter(user_id=user_id).values().count() > 0:
                 current_user_login = UserLogin.objects.filter(user_id=user_id).values()[0]
+                response = {'user_login': current_user_login}
+                Result.append_result(response, Result.SUCCESS)
+                response = dumps(response)
+                return HttpResponse(response, content_type='application/json')
+        elif username:
+            if UserLogin.objects.filter(username=username).values().count() > 0:
+                current_user_login = UserLogin.objects.filter(username=username).values()[0]
                 response = {'user_login': current_user_login}
                 Result.append_result(response, Result.SUCCESS)
                 response = dumps(response)
