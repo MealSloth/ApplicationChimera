@@ -31,9 +31,8 @@ def user_login(request):  # /user-login
                 Result.append_result(response, Result.SUCCESS)
                 response = dumps(response)
                 return HttpResponse(response, content_type='application/json')
-        else:
-            response = Result.get_result_dump(Result.INVALID_PARAMETER)
-            return HttpResponse(response, content_type='application/json')
+        response = Result.get_result_dump(Result.INVALID_PARAMETER)
+        return HttpResponse(response, content_type='application/json')
     else:
         response = Result.get_result_dump(Result.POST_ONLY)
         return HttpResponse(response, content_type='application/json')
